@@ -198,7 +198,7 @@ jobs:
               # 从远程 Makefile 中提取 KSU_API_VERSION
               KSU_API_VERSION=$(curl -s "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/susfs-main/kernel/Makefile" | 
                 # 查找第一个包含版本定义的行
-                grep -m1 "KSU_VERSION_API :=" | 
+                grep "KSU_VERSION_API :=3.2.0" | 
                 # 提取等号后的值
                 awk -F'= ' '{print $2}' | 
                 # 删除所有空白字符
@@ -206,8 +206,8 @@ jobs:
               # 如果成功获取到版本号则跳出循环，否则等待 1 秒后重试
               [ -n "$KSU_API_VERSION" ] && break || sleep 1
             done
-            # 如果获取失败，使用默认版本号 3.1.7
-            [ -z "$KSU_API_VERSION" ] && KSU_API_VERSION="3.1.7"
+            # 如果获取失败，使用默认版本号 3.2.0
+            [ -z "$KSU_API_VERSION" ] && KSU_API_VERSION="3.2.0"
             # 将 API 版本号存储到 GitHub 环境变量
             echo "KSU_API_VERSION=$KSU_API_VERSION" >> $GITHUB_ENV
             # 创建版本定义模板&版本格式函数: 使用获取的提交哈希和固定后缀
